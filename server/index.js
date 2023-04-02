@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-//const dotenv = require("dotenv");
+const dotenv = require("dotenv");
 
-// dotenv.config()
+dotenv.config();
 
 const app  = express();
 
@@ -14,8 +14,8 @@ app.use(cors());
 
 mongoose.set('strictQuery', false);
 
-mongoose.connect(
-    "mongodb+srv://admin-lavesh:admin123@cluster0.agz64.mongodb.net/todoDB", {
+mongoose.connect( process.env.MONGODB_URL ,   
+    {
         useNewUrlParser: true,
         useUnifiedTopology: true 
     }
@@ -31,7 +31,7 @@ const Todo = require("./models/Todo");
 
 app.get("/todos", async (req, res) => {
     try {
-        const todos = await Todo.find();
+        const todos = await Todo.find().sort({ position: 1 });
         res.json(todos);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -41,7 +41,7 @@ app.get("/todos", async (req, res) => {
 app.post("/todo/new", async (req,res) => {
     const todo = new Todo({
         list: req.body.list,
-        // position: req.body.position
+        position: req.body.position 
     });
 
     try {
@@ -52,18 +52,11 @@ app.post("/todo/new", async (req,res) => {
       }
 });
 
-app.delete("/todo/delete/:id", async (req,res) => {
-    const result = await Todo.findByIdAndDelete(req.params.id);
-    res.json(result);
-});
-
-app.get("/todo/complete/:id", async (req,res) => {
+app.put("/todo/complete/:id", async (req,res) => {
     const { id } = req.params;
-    // const { position } = req.body;
 
     const todo = await Todo.findById(id);
 
-    // todo.position = position;
     todo.complete = !todo.complete;
     
     await todo.save();
@@ -71,6 +64,46 @@ app.get("/todo/complete/:id", async (req,res) => {
     res.json(todo);
 });
 
+app.put("/todo/updatePosition/:id", async (req, res) => {
+    const { id } = req.params;
+    const { position } = req.body;
+  
+    const todo = await Todo.findById(id);
+  
+    todo.position = position;
+  
+    await todo.save();
+  
+    res.json(todo);
+  });
+  
+  app.put('/todo/updatePositions', async (req, res) => {
+    try {
+      const { todos } = req.body;
+  
+      const updatedTodos = await Promise.all(
+        todos.map(async (todo) => {
+          const updatedTodo = await Todo.findByIdAndUpdate(
+            todo._id,
+            { position: todo.position },
+            { new: true }
+          );
+  
+          return updatedTodo;
+        })
+      );
+  
+      res.json(updatedTodos);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+
+app.delete("/todo/delete/:id", async (req,res) => {
+    const result = await Todo.findByIdAndDelete(req.params.id);
+    res.json(result);
+});
 
 
 app.listen(3001, () => console.log("Sever started!"));

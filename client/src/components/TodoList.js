@@ -13,8 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 export const TodoList = ({ todos, setTodos }) => {
   
   const completeTodo = async (id) => {
-    
-    const data = await fetch("http://localhost:3001/todo/complete/" + id)
+    const data = await fetch("http://localhost:3001/todo/complete/" + id, {method: "PUT"})
       .then(res => res.json());
 
       setTodos(todos => todos.map(todo => {
@@ -25,7 +24,6 @@ export const TodoList = ({ todos, setTodos }) => {
         return todo;
       }
       ));
-
   }
 
 
@@ -36,7 +34,7 @@ export const TodoList = ({ todos, setTodos }) => {
     setTodos(todos => todos.filter(todo => todo._id !== data._id));
   }
     
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     if (!result.destination) {
       return;
     }
@@ -46,6 +44,33 @@ export const TodoList = ({ todos, setTodos }) => {
     items.splice(result.destination.index, 0, reorderedItem);
   
     setTodos(items);
+
+  await fetch(`http://localhost:3001/todo/updatePosition/${reorderedItem._id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      position: result.destination.index
+    })
+  });
+
+  
+    const updatedTodos = items.map((todo, index) => ({
+      ...todo,
+      position: index
+    }));
+    
+    await fetch("http://localhost:3001/todo/updatePositions", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        todos: updatedTodos
+      })
+    });
+
   };
 
   return (

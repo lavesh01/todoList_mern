@@ -11,10 +11,10 @@ const TodoSchema = new Schema({
         default: false,
         required: true
     },
-    // position: {
-    //     type: Number,
-    //     required: true,
-    // },
+    position: {
+        type: Number,
+        required: true,
+    }
 })
 
 const Todo = mongoose.model("Todo", TodoSchema);

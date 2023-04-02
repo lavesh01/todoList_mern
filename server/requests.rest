@@ -6,13 +6,25 @@ POST http://localhost:3001/todo/new
 Content-Type: application/json
 
 {
-    "list": "Get the bread"
+    "list": "Get the bread",
+    "position": "1"
 }
 
 ###
 
-DELETE http://localhost:3001/todo/delete/64281ead6a6ae02af5e41dc3
+DELETE http://localhost:3001/todo/delete/64281ead6a6ae02af5e41dc
 
 ###
 
-PUT http://localhost:3001/todo/complete/64281e126a6ae02af5e41dc1
+PUT http://localhost:3001/todo/complete/6429b5a7cbd7c40f50d1233b
+
+####
+PUT http://localhost:3001/todo/updatePosition/6429dc2ef154e99d9c1a3067
+Content-Type: application/json
+
+{
+    "position": "0"
+}
+
+
+####
