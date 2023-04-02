@@ -1,4 +1,4 @@
-## todoList_mern
+# Todo List
 MERN Stack Todo List App
 This is a simple Todo List application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The application allows you to add new items to the list and drag and drop them to arrange them as you wish. The position of the items will remain the same even after refreshing the page.
 
@@ -7,10 +7,10 @@ This is a simple Todo List application built using the MERN (MongoDB, Express.js
 
 
 ### Features
-*Add new items to the list <br>
-*Drag and drop items to arrange them <br> 
-*Save the position of items even after refreshing the page <br> 
-*Responsive design <br>
+- [x] Add new items to the list <br>
+- [x] Drag and drop items to arrange them <br> 
+- [x] Save the position of items even after refreshing the page <br> 
+- [x] Responsive design <br>
 
 #### Technologies Used
 MongoDB - a NoSQL database used for storing the list items and their positions <br>
