@@ -2,8 +2,8 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
-import { TodoForm } from './components/TodoForm';
-import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm/TodoForm';
+import { TodoList } from './components/TodoList/TodoList';
 
 const API_BASE = "http://localhost:3001";
 
@@ -23,7 +23,7 @@ function App() {
   
   return (
     <div className="App">
-      <h1>Todo List</h1>
+      <h1>Todo <span style={{color:"#2196f3"}}>List</span></h1>
       <TodoForm todos={todos} setTodos={setTodos} />
       <TodoList todos={todos} setTodos={setTodos} />
     </div>

@@ -10,10 +10,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 
+const API_BASE = "http://localhost:3001";
+
 export const TodoList = ({ todos, setTodos }) => {
   
   const completeTodo = async (id) => {
-    const data = await fetch("http://localhost:3001/todo/complete/" + id, {method: "PUT"})
+    const data = await fetch( API_BASE + "/todo/complete/" + id, {method: "PUT"})
       .then(res => res.json());
 
       setTodos(todos => todos.map(todo => {
@@ -28,7 +30,7 @@ export const TodoList = ({ todos, setTodos }) => {
 
 
   const deleteTodo = async (id) => {
-    const data = await fetch("http://localhost:3001/todo/delete/" + id, {method: "DELETE"})
+    const data = await fetch( API_BASE + "/todo/delete/" + id, {method: "DELETE"})
       .then(res => res.json());
 
     setTodos(todos => todos.filter(todo => todo._id !== data._id));
@@ -45,7 +47,7 @@ export const TodoList = ({ todos, setTodos }) => {
   
     setTodos(items);
 
-  await fetch(`http://localhost:3001/todo/updatePosition/${reorderedItem._id}`, {
+  await fetch( API_BASE + `/todo/updatePosition/${reorderedItem._id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -61,7 +63,7 @@ export const TodoList = ({ todos, setTodos }) => {
       position: index
     }));
     
-    await fetch("http://localhost:3001/todo/updatePositions", {
+    await fetch( API_BASE + "/todo/updatePositions", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -96,7 +98,7 @@ export const TodoList = ({ todos, setTodos }) => {
                     <ListItemText primary={todo.list} />
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => deleteTodo(todo._id)}>
-                        <DeleteIcon />
+                        <DeleteIcon style={{color:"black"}} />
                       </IconButton>
                     </ListItemSecondaryAction>
                   </ListItem>

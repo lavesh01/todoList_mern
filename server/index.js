@@ -29,6 +29,7 @@ mongoose.connect( process.env.MONGODB_URL ,
     
 const Todo = require("./models/Todo");
 
+
 app.get("/todos", async (req, res) => {
     try {
         const todos = await Todo.find().sort({ position: 1 });
@@ -37,6 +38,7 @@ app.get("/todos", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 app.post("/todo/new", async (req,res) => {
     const todo = new Todo({
@@ -52,6 +54,7 @@ app.post("/todo/new", async (req,res) => {
       }
 });
 
+
 app.put("/todo/complete/:id", async (req,res) => {
     const { id } = req.params;
 
@@ -63,6 +66,7 @@ app.put("/todo/complete/:id", async (req,res) => {
 
     res.json(todo);
 });
+
 
 app.put("/todo/updatePosition/:id", async (req, res) => {
     const { id } = req.params;
@@ -76,8 +80,9 @@ app.put("/todo/updatePosition/:id", async (req, res) => {
   
     res.json(todo);
   });
+
   
-  app.put('/todo/updatePositions', async (req, res) => {
+app.put('/todo/updatePositions', async (req, res) => {
     try {
       const { todos } = req.body;
   
@@ -99,6 +104,7 @@ app.put("/todo/updatePosition/:id", async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });
+
 
 app.delete("/todo/delete/:id", async (req,res) => {
     const result = await Todo.findByIdAndDelete(req.params.id);
