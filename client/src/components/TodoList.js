@@ -1,5 +1,7 @@
 import "./TodoList.css";
 
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -7,18 +9,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
-
-// import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-// import React, { useEffect, useState } from 'react'
-
-
-
-
-
-
-
-
-// import axios from "axios";
 
 export const TodoList = ({ todos, setTodos }) => {
   
@@ -46,28 +36,53 @@ export const TodoList = ({ todos, setTodos }) => {
     setTodos(todos => todos.filter(todo => todo._id !== data._id));
   }
     
-  return (
+  const handleDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
   
-    <List>
-    {todos.map((todo) => (
-      <ListItem 
-        key={todo._id} 
-        dense 
-        className="list" 
-        style={ { textDecoration : todo.complete ? 'line-through' : 'none' } } 
-      >
-        <Checkbox tabIndex={-1} disableRipple  onClick={() => completeTodo(todo._id)} />
-        <ListItemText primary={todo.list} />
-        <ListItemSecondaryAction>
-          <IconButton
-            aria-label="Delete"
-            onClick={() => deleteTodo(todo._id)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-    ))}
-  </List>
+    const items = Array.from(todos);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+  
+    setTodos(items);
+  };
+
+  return (
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="todos">
+        {(provided) => (
+          <List {...provided.droppableProps} ref={provided.innerRef}>
+            {todos.map((todo, index) => (
+              <Draggable key={todo._id} draggableId={todo._id} index={index}>
+                {(provided) => (
+                  <ListItem
+                    dense
+                    className="list"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={{
+                      ...provided.draggableProps.style,
+                      textDecoration: todo.complete ? 'line-through' : 'none'
+                    }}
+                  >
+                    <Checkbox tabIndex={-1} disableRipple onClick={() => completeTodo(todo._id)} />
+                    <ListItemText primary={todo.list} />
+                    <ListItemSecondaryAction>
+                      <IconButton aria-label="Delete" onClick={() => deleteTodo(todo._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </List>
+        )}
+      </Droppable>
+    </DragDropContext>
+
   )
 }

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { TextField } from '@mui/material';
 
 const API_BASE = "http://localhost:3001";
@@ -7,11 +8,11 @@ const API_BASE = "http://localhost:3001";
 export const TodoForm = ({ todos, setTodos}) => {
     const [newTodo, setNewTodo] = useState("");
 
-useEffect(() => {
-    addTodo();
-},[])
-
 const addTodo = async () => {
+    if (!newTodo) {
+        return;
+    }
+      
     const data = await fetch(API_BASE + "/todo/new", {
         method: "POST",
         headers: {
@@ -43,7 +44,9 @@ const addTodo = async () => {
                 }}
                 value={newTodo}
             />
-            <button onClick={addTodo} >Add</button>
+            <button onClick={addTodo} >    
+                <AddCircleIcon />
+            </button>
         </form>
     </div>
   )
