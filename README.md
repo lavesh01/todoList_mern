@@ -13,9 +13,9 @@ This is a simple Todo List application built using the MERN (MongoDB, Express.js
 - [x] Responsive design <br>
 
 #### Technologies Used
-MongoDB - a NoSQL database used for storing the list items and their positions <br>
-Express.js - a web application framework used for building the server-side of the application <br>
-React.js - a front-end library used for building the user interface and implementing the drag and drop functionality <br>
-Node.js - a JavaScript runtime environment used for running the server-side of the application <br>
-React DnD - a React library used for implementing drag and drop functionality <br>
-Material-UI - a React library used for implementing the user interface design <br>
+- MongoDB - a NoSQL database used for storing the list items and their positions <br>
+- Express.js - a web application framework used for building the server-side of the application <br>
+- React.js - a front-end library used for building the user interface and implementing the drag and drop functionality <br>
+- Node.js - a JavaScript runtime environment used for running the server-side of the application <br>
+- React DnD - a React library used for implementing drag and drop functionality <br>
+- Material-UI - a React library used for implementing the user interface design <br>
