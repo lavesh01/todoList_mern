@@ -94,7 +94,7 @@ export const TodoList = ({ todos, setTodos }) => {
                       textDecoration: todo.complete ? 'line-through' : 'none'
                     }}
                   >
-                    <Checkbox tabIndex={-1} disableRipple onClick={() => completeTodo(todo._id)} />
+                    <Checkbox tabIndex={-1} disableRipple onClick={() => completeTodo(todo._id)} checked={todo.complete} />
                     <ListItemText primary={todo.list} />
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => deleteTodo(todo._id)}>
